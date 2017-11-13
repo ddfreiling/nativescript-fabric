@@ -1,11 +1,13 @@
 node_modules
 *.yml
+Jenkinsfile
 *.gif
 *.jpg
 *.png
 *.log
-*.map
 *.ts
 !*.d.ts
 target/
 test/
+tsconfig.json
+references.d.ts

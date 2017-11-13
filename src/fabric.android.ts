@@ -1,5 +1,5 @@
 import * as application from 'application';
-import { Android, getInstance } from "./fabric.common";
+import { Android, getInstance } from "./fabric-common";
 import { stringify } from "./utils/helper";
 
 declare var io: any, com: any, android: any;

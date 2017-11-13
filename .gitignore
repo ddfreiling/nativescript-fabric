@@ -83,6 +83,13 @@ demo-angular/platforms
 demo-angular/app/tns_modules/
 demo-angular/report
 
+src/*.js
+src/*.js.map
+src/*.metadata.json
+src/**/*.js
+src/**/*.js.map
+src/**/*.ngfactory.ts
+
 # end2end app
 src/test/e2e/node_modules/
 src/test/e2e/hooks
