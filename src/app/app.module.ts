@@ -1,24 +1,27 @@
-import { NgModule, ErrorHandler, ModuleWithProviders, Provider, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, ErrorHandler, ModuleWithProviders, Provider } from '@angular/core';
 
 import { Fabric } from '..';
 import { FabricErrorHandler } from './errorhandler';
 
+// init fabric
+Fabric.init();
+
+export function errorHandlerFactory(): ErrorHandler {
+  return new FabricErrorHandler();
+}
+
 @NgModule({
   declarations: [],
   providers: [],
-  exports: [],
-  schemas: [NO_ERRORS_SCHEMA]
+  exports: []
 })
 export class FabricModule {
-  constructor() {
-    Fabric.init();
-  }
 
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: FabricModule,
       providers: [
-        { provide: ErrorHandler, useClass: FabricErrorHandler }
+        { provide: ErrorHandler, useFactory: (errorHandlerFactory) }
       ]
     };
   }

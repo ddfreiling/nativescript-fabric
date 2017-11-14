@@ -42,6 +42,7 @@ import { Fabric } from '..';
  * More information about Angular's [`ErrorHandler`](https://angular.io/docs/ts/latest/api/core/index/ErrorHandler-class.html).
  */
 export class FabricErrorHandler extends ErrorHandler {
+
   constructor() {
     super(true);
   }

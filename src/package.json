@@ -7,7 +7,7 @@
         "clean": "rimraf node_modules hooks target 'angular.js' 'angular.d.ts' 'fabric.*.js' '*.*.d.ts' '*.ngsummary.json' '*.metadata.json' '*.js.map' 'app/*.js' 'app/*.ngfactory.ts' 'app/*.ngfactory.d.ts' 'app/*.ngsummary.json' 'app/.*.metadata.json' 'app/*.js.map' ",
         "postclean": "npm i",
         "prebuild": "npm run tslint",
-        "build": "npm run ngc",
+        "build": "npm run ngc && npm run tsc",
         "tsc": "tsc",
         "ngc": "node --max-old-space-size=8192 ./node_modules/.bin/ngc",
         "tslint": "tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**' --exclude '**/test/**'",
