@@ -35,8 +35,9 @@ class CrashlyticsAndroidPlugin implements Android {
   init(): void {
     try {
       if (application.android) {
-        // configure logger
+        console.error('Fabric: Starting configuring Android platform');
         application.android.on('activityStarted', activityEventData => {
+          console.error('Fabric: Activating Fabric kits');
           // Enable Fabric crash reporting
           io.fabric.sdk.android.Fabric.with(new io.fabric.sdk.android.Fabric.Builder(activityEventData.activity)
             .kits([
@@ -48,6 +49,7 @@ class CrashlyticsAndroidPlugin implements Android {
             .build()
           );
           this.initDone = true;
+          console.error('Fabric: Init done');
         });
         application.on('uncaughtError', args => {
           if (!args.android) {
