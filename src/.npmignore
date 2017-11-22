@@ -11,3 +11,4 @@ target/
 test/
 tsconfig.json
 references.d.ts
+platforms/android/libraryproject/
