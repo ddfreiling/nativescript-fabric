@@ -4,10 +4,10 @@
     "description": "A NativeScript Plugin for fabric.io",
     "scripts": {
         "preclean": "npm i rimraf",
-        "clean": "rimraf node_modules hooks target 'angular.js' 'angular.d.ts' 'fabric.*.js' '*.*.d.ts' '*.ngsummary.json' '*.metadata.json' '*.js.map' 'app/*.js' 'app/*.ngfactory.ts' 'app/*.ngfactory.d.ts' 'app/*.ngsummary.json' 'app/.*.metadata.json' 'app/*.js.map' ",
-        "postclean": "npm i",
+        "clean": "rimraf node_modules hooks target 'angular.js' 'angular.d.ts' 'fabric.*.js' '*.*.d.ts' '*.ngsummary.json' '*.metadata.json' '*.js.map' 'app/*.js' 'app/*.ngfactory.ts' 'app/*.ngfactory.d.ts' 'app/*.ngsummary.json' 'app/.*.metadata.json' 'app/*.js.map' 'lib/postinstall.js'",
+        "postclean": "touch ./lib/postinstall.js && npm i",
         "prebuild": "npm run tslint",
-        "build": "npm run ngc && npm run tsc",
+        "build": "webpack --config etc/webpack.config.js ./lib/postinstall.es6.js ./lib/postinstall.js && npm run ngc && npm run tsc",
         "tsc": "tsc",
         "ngc": "node --max-old-space-size=8192 ./node_modules/.bin/ngc",
         "tslint": "tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**' --exclude '**/test/**'",
@@ -17,8 +17,8 @@
         "e2e": "npm run e2e:ios && npm run e2e:android",
         "e2e:ios": "cd test/e2e && tns test ios --emulator --justlaunch",
         "e2e:android": "cd test/e2e && tns test android --emulator --justlaunch",
-        "postinstall": "node postinstall.js",
-        "preuninstall": "node preuninstall.js",
+        "postinstall": "node postinstall-hooks.js && node lib/postinstall.js",
+        "preuninstall": "node preuninstall-hooks.js",
         "changelog": "conventional-changelog -p angular -i ../CHANGELOG.md -s -r 0",
         "changelog:add": "git add ../CHANGELOG.md && git commit -m 'chore(changelog): Updated CHANGELOG.md'",
         "release:pre": "npm run clean && npm run test",
@@ -74,7 +74,9 @@
         "jasmine-reporters": "2.2.1",
         "mockery": "2.1.0",
         "nativescript-angular": "4.4.1",
-        "rimraf": "2.6.1",
+        "ncp": "^2.0.0",
+        "prompt-lite": "0.1.1",
+        "rimraf": "^2.5.0",
         "rxjs": "5.4.3",
         "tns-core-modules": "3.3.0",
         "tns-platform-declarations": "3.3.0",
@@ -82,18 +84,14 @@
         "tslint": "5.4.3",
         "tslint-eslint-rules": "4.1.0",
         "typescript": "2.5.1",
+        "webpack": "~2.2.0",
         "zone.js": "0.8.17"
     },
     "nativescript": {
         "platforms": {
             "android": "3.0.0",
             "ios": "3.0.0"
-        },
-        "hooks": [{
-            "type": "after-prepare",
-            "script": "lib/after-prepare.js",
-            "inject": true
-        }]
+        }
     },
     "keywords": [
         "fabric",
