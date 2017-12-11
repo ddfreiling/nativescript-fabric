@@ -4,8 +4,8 @@
     "description": "A NativeScript Plugin for fabric.io",
     "scripts": {
         "preclean": "npm i rimraf",
-        "clean": "rimraf node_modules hooks target 'angular.js' 'angular.d.ts' 'fabric.*.js' '*.*.d.ts' '*.ngsummary.json' '*.metadata.json' '*.js.map' 'app/*.js' 'app/*.ngfactory.ts' 'app/*.ngfactory.d.ts' 'app/*.ngsummary.json' 'app/.*.metadata.json' 'app/*.js.map' 'lib/postinstall.js'",
-        "postclean": "touch ./lib/postinstall.js && npm i",
+        "clean": "rimraf node_modules hooks target 'angular.js' 'angular.d.ts' 'fabric.*.js' '*.*.d.ts' '*.ngsummary.json' '*.metadata.json' '*.js.map' 'app/*.js' 'app/*.ngfactory.ts' 'app/*.ngfactory.d.ts' 'app/*.ngsummary.json' 'app/.*.metadata.json' 'app/*.js.map'",
+        "postclean": "npm i",
         "prebuild": "npm run tslint",
         "build": "webpack --config etc/webpack.config.js ./lib/postinstall.es6.js ./lib/postinstall.js && npm run ngc && npm run tsc",
         "tsc": "tsc",
