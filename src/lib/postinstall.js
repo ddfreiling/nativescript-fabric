@@ -3373,7 +3373,6 @@ var directories = {
 console.log('NativeScript Fabric Plugin Installation');
 
 var appRoot = "../../";
-var appName = JSON.parse(fs.readFileSync(appRoot + 'package.json')).name;
 var pluginConfigFile = "fabric.json";
 var pluginConfigPath = path.join(appRoot, pluginConfigFile);
 var config = {};
@@ -3536,6 +3535,9 @@ function promptQuestionsResult(result) {
 function writeXcodeData(config) {
 
     console.log("Install Fabric-build-xcode hook.");
+
+    var appName = JSON.parse(fs.readFileSync(appRoot + 'package.json')).name;
+
     try {
         var scriptContent =
             `
