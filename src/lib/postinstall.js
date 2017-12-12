@@ -3379,7 +3379,7 @@ var config = {};
 
 function mergeConfig(result) {
     for (var key in result) {
-        config[key] = isSelected(result[key]);
+        config[key] = result[key];
     }
 }
 
@@ -3529,7 +3529,7 @@ function promptQuestionsResult(result) {
         writeGradleFile();
         writeFabricServiceGradleHook(result);
     }
-    console.log('Fabric post install completed. To re-run this script, navigate to the root directory of `nativescript-plugin-fabric` in your `node_modules` folder and run: `npm run config`.');
+    console.log('Fabric post install completed. To re-run this script, navigate to the root directory of `nativescript-fabric` in your `node_modules` folder and run: `npm run config`.');
 }
 
 function writeXcodeData(config) {
