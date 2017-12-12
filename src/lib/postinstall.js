@@ -3540,7 +3540,7 @@ function writeXcodeData(config) {
 
     try {
         if (!fs.existsSync(path.join(appRoot, "hooks", "after-prepare"))) {
-            fs.mkdirSyncpath.join(appRoot, "hooks", "after-prepare");
+            fs.mkdirSync(path.join(appRoot, "hooks", "after-prepare"));
         }
         var scriptContent =
             `
@@ -3682,7 +3682,7 @@ function writeFabricServiceGradleHook(config) {
     console.log("Install Fabric-build-gradle hook.");
     try {
         if (!fs.existsSync(path.join(appRoot, "hooks", "after-prepare"))) {
-            fs.mkdirSyncpath.join(appRoot, "hooks", "after-prepare");
+            fs.mkdirSync(path.join(appRoot, "hooks", "after-prepare"));
         }
         var scriptContent =
             `
