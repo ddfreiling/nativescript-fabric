@@ -232,6 +232,7 @@ module.exports = function() {
     } catch (e) {
         console.log("Failed to install Fabric-build-xcode hook.");
         console.log(e);
+        throw e;
     }
 }
 
@@ -269,6 +270,7 @@ pod 'Crashlytics'
     } catch (e) {
         console.log('Failed to create iOS (Pod) file.');
         console.log(e);
+        throw e;
     }
 }
 
@@ -308,6 +310,7 @@ dependencies {
     } catch (e) {
         console.log('Failed to create Android (include.gradle) file.');
         console.log(e);
+        throw e;
     }
 }
 
@@ -358,12 +361,13 @@ module.exports = function() {
     }
 };
 `;
-        console.log("Writing 'Fabric-build-gradle.js' to " + appRoot + "/hooks/after-prepare");
+        console.log("Writing 'Fabric-build-gradle.js' to " + appRoot + "hooks/after-prepare");
         var scriptPath = path.join(appRoot, "hooks", "after-prepare", "Fabric-build-gradle.js");
         fs.writeFileSync(scriptPath, scriptContent);
     } catch (e) {
         console.log("Failed to install Fabric-build-gradle hook.");
         console.log(e);
+        throw e;
     }
 }
 
