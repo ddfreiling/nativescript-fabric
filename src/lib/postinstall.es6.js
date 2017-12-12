@@ -363,7 +363,7 @@ module.exports = function() {
         propertiesContent+='apiKey = ' + apiKey + '\\n';
         propertiesContent+='apiSecret = ' + apiSecret + '\\n';
 
-        fs.writeFileSync(settingsJson, buildGradleCpropertiesContentontent);
+        fs.writeFileSync(settingsJson, propertiesContent);
     }
 };
 `;
