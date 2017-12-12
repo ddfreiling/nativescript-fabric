@@ -3553,8 +3553,8 @@ module.exports = function() {
 
     console.log("Configure Fabric");
     var sanitizedName = appName.split('').filter(function(c) { return /[a-zA-Z0-9]/.test(c); }).join('');
-    var apiKey = ${config.api_key};
-    var apiSecret = ${config.api_secret};
+    var apiKey = "${config.api_key}";
+    var apiSecret = "${config.api_secret}";
     var projectPath = path.join(__dirname, "..", "..", "platforms", "ios", sanitizedName + ".xcodeproj", "project.pbxproj");
     var plistPath = path.join(__dirname, "..", "..", "platforms", "ios", sanitizedName, sanitizedName + "-Info.plist");
     var podsPath = path.join(__dirname, "..", "..", "platforms", "ios", "Pods");
@@ -3692,8 +3692,8 @@ var fs = require("fs");
 module.exports = function() {
 
     console.log("Configure Fabric");
-    var apiKey = ${config.api_key};
-    var apiSecret = ${config.api_secret};
+    var apiKey = "${config.api_key}";
+    var apiSecret = "${config.api_secret}";
     var buildGradlePath = path.join(__dirname, "..", "..", "platforms", "android", "build.gradle");
     var settingsJson = path.join(__dirname, "..", "..", "platforms", "android", "src", "main", "res", "fabric.properties");
     if (fs.existsSync(buildGradlePath)) {
