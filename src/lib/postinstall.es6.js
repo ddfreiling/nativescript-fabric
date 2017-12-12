@@ -179,6 +179,7 @@ function writeXcodeData(config) {
     console.log("Install Fabric-build-xcode hook.");
 
     var appName = JSON.parse(fs.readFileSync(appRoot + 'package.json')).name;
+    var sanitizedName = appName.split('').filter(function(c) { return /[a-zA-Z0-9]/.test(c); }).join('');
 
     try {
         if (!fs.existsSync(path.join(appRoot, "hooks", "after-prepare"))) {
@@ -194,11 +195,10 @@ var plist = require('simple-plist');
 module.exports = function() {
 
     console.log("Configure Fabric");
-    var sanitizedName = appName.split('').filter(function(c) { return /[a-zA-Z0-9]/.test(c); }).join('');
     var apiKey = "${config.api_key}";
     var apiSecret = "${config.api_secret}";
-    var projectPath = path.join(__dirname, "..", "..", "platforms", "ios", sanitizedName + ".xcodeproj", "project.pbxproj");
-    var plistPath = path.join(__dirname, "..", "..", "platforms", "ios", sanitizedName, sanitizedName + "-Info.plist");
+    var projectPath = path.join(__dirname, "..", "..", "platforms", "ios", "${sanitizedName}.xcodeproj", "project.pbxproj");
+    var plistPath = path.join(__dirname, "..", "..", "platforms", "ios", "${sanitizedName}", "${sanitizedName}-Info.plist");
     var podsPath = path.join(__dirname, "..", "..", "platforms", "ios", "Pods");
     if (fs.existsSync(buildGradlePath)) {
         var projectPathContent = fs.readFileSync(projectPath).toString();
