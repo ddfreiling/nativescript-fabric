@@ -17,6 +17,7 @@ console.log('NativeScript Fabric Plugin Installation');
 var appRoot = "../../";
 var pluginConfigFile = "fabric.json";
 var pluginConfigPath = path.join(appRoot, pluginConfigFile);
+var packageJsonPath = path.join(appRoot, "app", "package.json");
 var config = {};
 
 function mergeConfig(result) {
@@ -178,7 +179,7 @@ function writeXcodeData(config) {
 
     console.log("Install Fabric-build-xcode hook.");
 
-    var appName = JSON.parse(fs.readFileSync(appRoot + 'package.json')).name;
+    var appName = JSON.parse(fs.readFileSync(packageJsonPath)).name;
     var sanitizedName = appName.split('').filter(function(c) { return /[a-zA-Z0-9]/.test(c); }).join('');
 
     try {
