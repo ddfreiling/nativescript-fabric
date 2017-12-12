@@ -3559,7 +3559,7 @@ module.exports = function() {
     var projectPath = path.join(__dirname, "..", "..", "platforms", "ios", "${sanitizedName}.xcodeproj", "project.pbxproj");
     var plistPath = path.join(__dirname, "..", "..", "platforms", "ios", "${sanitizedName}", "${sanitizedName}-Info.plist");
     var podsPath = path.join(__dirname, "..", "..", "platforms", "ios", "Pods");
-    if (fs.existsSync(buildGradlePath)) {
+    if (fs.existsSync(projectPath)) {
         var projectPathContent = fs.readFileSync(projectPath).toString();
 
         // already added
