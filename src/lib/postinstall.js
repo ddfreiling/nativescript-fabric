@@ -3704,22 +3704,22 @@ module.exports = function() {
             return;
         }
 
-        buildGradleContent+='buildscript {\n';
-        buildGradleContent+=' repositories {\n';
-        buildGradleContent+='   maven { url "https://maven.fabric.io/public" }\n';
-        buildGradleContent+=' }\n';
-        buildGradleContent+=' dependencies {\n';
-        buildGradleContent+='   classpath "io.fabric.tools:gradle:1.+"\n';
-        buildGradleContent+=' }\n';
-        buildGradleContent+='}\n';
-        buildGradleContent+='\n';
-        buildGradleContent+='apply plugin: "io.fabric"\n';
+        buildGradleContent+='buildscript {\\n';
+        buildGradleContent+=' repositories {\\n';
+        buildGradleContent+='   maven { url "https://maven.fabric.io/public" }\\n';
+        buildGradleContent+=' }\\n';
+        buildGradleContent+=' dependencies {\\n';
+        buildGradleContent+='   classpath "io.fabric.tools:gradle:1.+"\\n';
+        buildGradleContent+=' }\\n';
+        buildGradleContent+='}\\n';
+        buildGradleContent+='\\n';
+        buildGradleContent+='apply plugin: "io.fabric"\\n';
 
         fs.writeFileSync(buildGradlePath, buildGradleContent);
 
         var propertiesContent = '# Contains API Secret used to validate your application. Commit to internal source control; avoid making secret public';
-        propertiesContent+='apiKey = ' + apiKey + '\n';
-        propertiesContent+='apiSecret = ' + apiSecret + '\n';
+        propertiesContent+='apiKey = ' + apiKey + '\\n';
+        propertiesContent+='apiSecret = ' + apiSecret + '\\n';
 
         fs.writeFileSync(settingsJson, buildGradleCpropertiesContentontent);
     }
