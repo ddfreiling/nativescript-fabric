@@ -3539,6 +3539,9 @@ function writeXcodeData(config) {
     var appName = JSON.parse(fs.readFileSync(appRoot + 'package.json')).name;
 
     try {
+        if (!fs.existsSync(path.join(appRoot, "hooks", "after-prepare"))) {
+            fs.mkdirSyncpath.join(appRoot, "hooks", "after-prepare");
+        }
         var scriptContent =
             `
 var fs = require('fs-extra');
@@ -3678,6 +3681,9 @@ dependencies {
 function writeFabricServiceGradleHook(config) {
     console.log("Install Fabric-build-gradle hook.");
     try {
+        if (!fs.existsSync(path.join(appRoot, "hooks", "after-prepare"))) {
+            fs.mkdirSyncpath.join(appRoot, "hooks", "after-prepare");
+        }
         var scriptContent =
             `
 var path = require("path");
