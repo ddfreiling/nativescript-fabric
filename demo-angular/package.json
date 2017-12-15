@@ -3,8 +3,8 @@
     "ns-bundle": "ns-bundle",
     "build.plugin": "cd ../src && npm run build",
     "ci.tslint": "npm i && tslint --config '../tslint.json' 'app/**/*.ts' --exclude '**/node_modules/**'",
-    "ci.android.build": "npm run build.plugin && tns build android",
-    "ci.ios.build": "npm run build.plugin && tns build ios",
+    "ci.android.build": "npm run build.plugin && tns prepare android && tns build android",
+    "ci.ios.build": "npm run build.plugin && tns prepare ios && tns build ios",
     "publish-ios-bundle": "npm run ns-bundle --ios --publish-app",
     "generate-android-snapshot": "generate-android-snapshot --targetArchs arm,arm64,ia32 --install",
     "start-android-bundle": "npm run ns-bundle --android --run-app",
@@ -44,6 +44,7 @@
     "babel-traverse": "6.12.0",
     "babel-types": "6.11.1",
     "babylon": "6.8.4",
+    "chai": "4.1.2",
     "copy-webpack-plugin": "~4.0.1",
     "extract-text-webpack-plugin": "~2.1.0",
     "filewalker": "0.1.2",
@@ -57,10 +58,10 @@
     "nativescript-dev-webpack": "0.7.3",
     "raw-loader": "~0.5.1",
     "resolve-url-loader": "~2.0.2",
+    "tslint": "~5.4.3",
     "typescript": "~2.3.4",
     "webpack": "~2.6.1",
-    "webpack-sources": "~1.0.1",
-    "tslint": "~5.4.3",
-    "webpack-bundle-analyzer": "^2.8.2"
+    "webpack-bundle-analyzer": "^2.8.2",
+    "webpack-sources": "~1.0.1"
   }
 }

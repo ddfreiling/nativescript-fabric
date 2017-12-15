@@ -3551,13 +3551,14 @@ var path = require('path');
 var xcode = require('xcode');
 var plist = require('simple-plist');
 
-module.exports = function() {
+module.exports = function($logger, $projectData, hookArgs) {
 
-    console.log("Configure Fabric");
+    var appName = path.basename($projectData.projectDir);
+    var sanitizedName = appName.split('').filter(function(c) { return /[a-zA-Z0-9]/.test(c); }).join('');
     var apiKey = "${config.api_key}";
     var apiSecret = "${config.api_secret}";
-    var projectPath = path.join(__dirname, "..", "..", "platforms", "ios", "${sanitizedName}.xcodeproj", "project.pbxproj");
-    var plistPath = path.join(__dirname, "..", "..", "platforms", "ios", "${sanitizedName}", "${sanitizedName}-Info.plist");
+    var projectPath = path.join(__dirname, "..", "..", "platforms", "ios", appName + ".xcodeproj", "project.pbxproj");
+    var plistPath = path.join(__dirname, "..", "..", "platforms", "ios", appName, appName + "-Info.plist");
     var podsPath = path.join(__dirname, "..", "..", "platforms", "ios", "Pods");
     if (fs.existsSync(projectPath)) {
         var projectPathContent = fs.readFileSync(projectPath).toString();
@@ -3566,12 +3567,14 @@ module.exports = function() {
         if (projectPathContent.indexOf('Configure Fabric') != -1) {
             return;
         }
+        $logger.info('Configure Fabric for iOS');
 
         var xcodeProject = xcode.project(projectPath);
         xcodeProject.parseSync();
         var options = { shellPath: '/bin/sh', shellScript: podsPath + '/Fabric/run ' + apiKey + ' ' + apiSecret };
         var buildPhase = xcodeProject.addBuildPhase([], 'PBXShellScriptBuildPhase', 'Configure Fabric', xcodeProject.getFirstTarget().uuid, options).buildPhase;
         fs.writeFileSync(projectPath, xcodeProject.writeSync());
+        $logger.trace('Updateded Xcode project');
 
         var appPlist = plist.readFileSync(plistPath);
         plist.Fabric = {
@@ -3585,6 +3588,7 @@ module.exports = function() {
             }]
         }
         plist.writeFileSync(plistPath, appPlist);
+        $logger.trace('Updateded Plist');
     }
 };
 `;
@@ -3690,9 +3694,8 @@ function writeFabricServiceGradleHook(config) {
 var path = require("path");
 var fs = require("fs");
 
-module.exports = function() {
+module.exports = function($logger, $projectData, hookArgs) {
 
-    console.log("Configure Fabric");
     var apiKey = "${config.api_key}";
     var apiSecret = "${config.api_secret}";
     var buildGradlePath = path.join(__dirname, "..", "..", "platforms", "android", "build.gradle");
@@ -3705,24 +3708,61 @@ module.exports = function() {
             return;
         }
 
-        buildGradleContent+='buildscript {\\n';
-        buildGradleContent+=' repositories {\\n';
-        buildGradleContent+='   maven { url "https://maven.fabric.io/public" }\\n';
-        buildGradleContent+=' }\\n';
-        buildGradleContent+=' dependencies {\\n';
-        buildGradleContent+='   classpath "io.fabric.tools:gradle:1.+"\\n';
-        buildGradleContent+=' }\\n';
-        buildGradleContent+='}\\n';
-        buildGradleContent+='\\n';
-        buildGradleContent+='apply plugin: "io.fabric"\\n';
+        console.log("Configure Fabric for Android");
+
+        var search = -1;
+
+        search = buildGradleContent.indexOf("buildscript", 0);
+        if (search == -1) {
+            return;
+        }
+
+        search = buildGradleContent.indexOf("repositories", search);
+        if (search == -1) {
+            return;
+        }
+
+        search = buildGradleContent.indexOf("jcenter()", search);
+        if (search == -1) {
+            return;
+        }
+
+        buildGradleContent = buildGradleContent.substr(0, search - 1) + ' jcenter()\\n        maven { url "https://maven.fabric.io/public" }\\n' + buildGradleContent.substr(search + 10);
+
+        search = buildGradleContent.indexOf("dependencies", search);
+        if (search == -1) {
+            return;
+        }
+
+        search = buildGradleContent.indexOf("classpath \\"com.android.tools.build:gradle", search);
+        if (search == -1) {
+            return;
+        }
+
+        search = buildGradleContent.indexOf("\\"", search + 11);
+        if (search == -1) {
+            return;
+        }
+
+        buildGradleContent = buildGradleContent.substr(0, search + 1) + '    \\n    classpath "io.fabric.tools:gradle:1.+"\\n' + buildGradleContent.substr(search + 2);
+
+
+        search = buildGradleContent.indexOf("apply plugin: \\"com.android.application\\"", search);
+        if (search == -1) {
+            return;
+        }
+
+        buildGradleContent = buildGradleContent.substr(0, search - 1) + 'apply plugin: "com.android.application"\\napply plugin: "io.fabric"\\n' + buildGradleContent.substr(search + 39);
 
         fs.writeFileSync(buildGradlePath, buildGradleContent);
+        $logger.trace('Updated build gradle');
 
-        var propertiesContent = '# Contains API Secret used to validate your application. Commit to internal source control; avoid making secret public';
+        var propertiesContent = '# Contains API Secret used to validate your application. Commit to internal source control; avoid making secret public\\n';
         propertiesContent+='apiKey = ' + apiKey + '\\n';
         propertiesContent+='apiSecret = ' + apiSecret + '\\n';
 
         fs.writeFileSync(settingsJson, propertiesContent);
+        $logger.trace('Written fabric.properties');
     }
 };
 `;
@@ -3747,6 +3787,10 @@ function isSelected(value) {
 }
 
 function isPresent(value) {
+
+
+
+
     return value !== undefined;
 }
 
